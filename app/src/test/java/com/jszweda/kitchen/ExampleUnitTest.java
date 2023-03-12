@@ -1,4 +1,4 @@
-package com.jszweda.fridge;
+package com.jszweda.kitchen;
 
 import org.junit.Test;
 

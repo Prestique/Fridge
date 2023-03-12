@@ -27,11 +27,12 @@
         app:layout_constraintVertical_bias="0.525" />
 
     <EditText
-        android:id="@+id/userInput"
-        android:layout_width="114dp"
+        android:id="@+id/etInputFood"
+        android:layout_width="wrap_content"
         android:layout_height="74dp"
-        android:textColor="#ffb3ff"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:hint="Please enter food"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -44,7 +45,7 @@
         android:id="@+id/fridge"
         android:layout_width="140dp"
         android:layout_height="70dp"
-        android:backgroundTint="#E600AC"
+        android:backgroundTint="@color/btn_pink"
         android:text="Lodówka"
         android:textSize="18dp"
         android:textStyle="bold"

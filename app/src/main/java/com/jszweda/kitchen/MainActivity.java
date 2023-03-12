@@ -1,16 +1,20 @@
-package com.jszweda.fridge;
+package com.jszweda.kitchen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView textMain;
     Button buttonFridge;
+    EditText etTextFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +28,18 @@ public class MainActivity extends AppCompatActivity {
         buttonFridge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (textMain.length() > 80){
                     textMain.setText("");
                 }
-                textMain.append(" Clicked");
+
+                etTextFood = findViewById(R.id.etInputFood);
+                String strFood = etTextFood.getText().toString();
+                if (!TextUtils.isEmpty(strFood)) {
+                    textMain.append(" "+ strFood);
+                } else {
+                    etTextFood.setError("Wprowadź jedzenie");
+                }
             }
         });
 

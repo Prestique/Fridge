@@ -1,4 +1,4 @@
-package com.jszweda.fridge;
+package com.jszweda.kitchen;
 
 import android.content.Context;
 
