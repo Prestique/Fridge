@@ -35,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
 
                 etTextFood = findViewById(R.id.etInputFood);
                 String strFood = etTextFood.getText().toString();
-                if (!TextUtils.isEmpty(strFood)) {
-                    textMain.append(" "+ strFood);
+                if (!TextUtils.isEmpty(strFood) && !(strFood.strip().length() == 0)) {
+                    textMain.append(" "+ strFood.strip());
                 } else {
                     etTextFood.setError("Wprowadź jedzenie");
                 }
             }
         });
+
+
 
     }
 }
