@@ -1,7 +1,8 @@
 package com.jszweda.kitchen;
 
+import android.os.Build;
+
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.Objects;
 
 class Food implements Comparable<Food> {
@@ -75,6 +76,19 @@ class Food implements Comparable<Food> {
 
     @Override
     public int compareTo(Food o) {
-        return 0;
+        Food other = (Food) o;
+        int resultsName = this.getFoodName().compareToIgnoreCase(other.getFoodName());
+        if ( resultsName != 0 ){
+            return resultsName;
+        }
+        int resultsWeight = Integer.compare(this.getWeight(), other.getWeight());
+        if (resultsWeight != 0) {
+            return resultsWeight;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return this.getExpirationDate().compareTo(other.getExpirationDate());
+        }
+        return resultsWeight;
     }
 }
