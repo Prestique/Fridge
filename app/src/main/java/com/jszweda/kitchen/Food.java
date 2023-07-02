@@ -8,24 +8,24 @@ import java.util.Objects;
 class Food implements Comparable<Food> {
     protected LocalDate expirationDate;
     protected String foodName;
-    protected int quantity;
-    protected int weight;
+    protected int pieces = 0;
+    protected int quantity = 0;
 
     private Food(){}
     protected Food(String foodName, LocalDate expirationDate){
         this.foodName = foodName;
         this.expirationDate = expirationDate;
     }
-    protected Food(String foodName, LocalDate expirationDate, int quantity){
+    protected Food(String foodName, LocalDate expirationDate, int pieces){
         this.foodName = foodName;
         this.expirationDate = expirationDate;
-        this.quantity = quantity;
+        this.pieces = pieces;
     }
-    protected Food(String foodName, LocalDate expirationDate, int quantity, int weight){
+    protected Food(String foodName, LocalDate expirationDate, int pieces, int quantity){
         this.foodName = foodName;
         this.expirationDate = expirationDate;
+        this.pieces = pieces;
         this.quantity = quantity;
-        this.weight = weight;
     }
 
     public LocalDate getExpirationDate() {
@@ -44,6 +44,14 @@ class Food implements Comparable<Food> {
         this.foodName = foodName;
     }
 
+    public int getPieces() {
+        return pieces;
+    }
+
+    public void setPieces(int pieces) {
+        this.pieces = pieces;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -52,26 +60,18 @@ class Food implements Comparable<Food> {
         this.quantity = quantity;
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Food food = (Food) o;
-        return quantity == food.quantity && weight == food.weight && Objects.equals(expirationDate, food.expirationDate) && Objects.equals(foodName, food.foodName);
+        return pieces == food.pieces && quantity == food.quantity && Objects.equals(expirationDate, food.expirationDate) && Objects.equals(foodName, food.foodName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(expirationDate, foodName, quantity, weight);
+        return Objects.hash(expirationDate, foodName, pieces, quantity);
     }
 
     @Override
@@ -81,7 +81,7 @@ class Food implements Comparable<Food> {
         if ( resultsName != 0 ){
             return resultsName;
         }
-        int resultsWeight = Integer.compare(this.getWeight(), other.getWeight());
+        int resultsWeight = Integer.compare(this.getQuantity(), other.getQuantity());
         if (resultsWeight != 0) {
             return resultsWeight;
         }

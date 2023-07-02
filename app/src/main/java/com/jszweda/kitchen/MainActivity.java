@@ -2,9 +2,9 @@ package com.jszweda.kitchen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,9 +19,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView txtvMain;
+    TextView txtvMain, tvExpDate;
     Button addFood, goFridge;
-    EditText etFoodName, etExpDate, etQuantity, etWeight;
+    EditText etFoodName, etQuantity, etWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +29,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         txtvMain = findViewById(R.id.textViewMain);
-        txtvMain.setText("");
+        tvExpDate = findViewById(R.id.tvExpDate);
         etFoodName = findViewById(R.id.etInputFood);
-        etExpDate = findViewById(R.id.etExpDate);
         etQuantity = findViewById(R.id.etQuantity);
         etWeight = findViewById(R.id.etWeight);
-
         goFridge = findViewById(R.id.goFridge);
         addFood = findViewById(R.id.addFood);
+
         addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 if (txtvMain.length() > 80){
                     txtvMain.setText("");
@@ -61,6 +61,23 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), FridgeActivity.class);
                 startActivity(i);
             }
+        });
+
+        tvExpDate.setOnClickListener(view -> {
+            DatePickerFragment datePickerFragment = new DatePickerFragment();
+
+            datePickerFragment.setterOnDateSelectedListener(new OnDateSelectedListener() {
+                @Override
+                public void onDateSelected(int year, int month, int day) {
+                    // Obsłuż wybraną datę
+                    // Możesz zaktualizować TextView lub wykonać inne operacje
+                    String selectedDate = day + "/" + (month+1) + "/" + year;
+                    tvExpDate.setText(selectedDate);
+                }
+            });
+
+            datePickerFragment.show(getSupportFragmentManager(), "Wybierz datę:");
+
         });
 
 
@@ -90,4 +107,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }

@@ -33,24 +33,6 @@
         app:layout_constraintEnd_toStartOf="@+id/addFood" />
 
     <EditText
-        android:id="@+id/etExpDate"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="@string/text_exp_date"
-        android:inputType="date"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etInputFood"
-        android:importantForAutofill="no" />
-
-    <EditText
         android:id="@+id/etQuantity"
         android:layout_width="80dp"
         android:layout_height="50dp"
@@ -67,16 +49,16 @@
         android:id="@+id/etWeight"
         android:layout_width="80dp"
         android:layout_height="50dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:gravity="center"
         android:hint="@string/text_weight"
+        android:importantForAutofill="no"
         android:inputType="number"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/etQuantity"
-        app:layout_constraintTop_toBottomOf="@+id/etExpDate"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/tvExpDate" />
 
     <EditText
         android:id="@+id/etInputFood"
@@ -101,17 +83,53 @@
         android:id="@+id/textViewMain"
         android:layout_width="141dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
         android:background="#ffb3ff"
         android:text="gghj  ghjk gh"
         android:textColor="@color/black"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etExpDate"
-        app:layout_constraintVertical_bias="0.353" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <TextView
+        android:id="@+id/tvExpDate"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/text_exp_date"
+        android:textColor="@color/black"
+
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etInputFood" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="272dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etQuantity">
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="zamrażarka" />
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="lodówka" />
+    </RadioGroup>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
