@@ -30,8 +30,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         final Food selectedFood = listOfFood[position];
         holder.tvFoodName.setText(selectedFood.getFoodName());
         holder.tvExpDate.setText(selectedFood.getExpirationDate().toString());
-        holder.tvPieces.setText("Ilość sztuk: " + selectedFood.getPieces());
-        holder.tvQuantity.setText("Waga: " + selectedFood.getQuantity());
+        holder.tvQuantity.setText("Ilość sztuk: " + selectedFood.getQuantity());
+        holder.tvWeight.setText("Waga: " + selectedFood.getWeight());
 
     }
 
@@ -41,14 +41,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     }
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvFoodName, tvQuantity, tvExpDate, tvPieces;
+        public TextView tvFoodName, tvWeight, tvExpDate, tvQuantity;
 
         public FoodViewHolder(@NonNull View itemView) {
             super(itemView);
             this.tvFoodName = itemView.findViewById(R.id.tvFoodName);
-            this.tvQuantity = itemView.findViewById(R.id.tvQuantity);
+            this.tvWeight = itemView.findViewById(R.id.tvWeight);
             this.tvExpDate = itemView.findViewById(R.id.tvExpDate);
-            this.tvPieces = itemView.findViewById(R.id.tvPieces);
+            this.tvQuantity = itemView.findViewById(R.id.tvQuantity);
         }
     }
 

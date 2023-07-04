@@ -1,14 +1,19 @@
 package com.jszweda.kitchen;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-class Food implements Comparable<Food> {
+import androidx.annotation.NonNull;
+
+class Food implements Comparable<Food>, Parcelable {
     protected LocalDate expirationDate;
     protected String foodName;
-    protected int pieces = 0;
+    protected int weight = 0;
     protected int quantity = 0;
 
     private Food(){}
@@ -16,17 +21,21 @@ class Food implements Comparable<Food> {
         this.foodName = foodName;
         this.expirationDate = expirationDate;
     }
-    protected Food(String foodName, LocalDate expirationDate, int pieces){
+    protected Food(String foodName, LocalDate expirationDate, int weight){
         this.foodName = foodName;
         this.expirationDate = expirationDate;
-        this.pieces = pieces;
+        this.weight = weight;
     }
-    protected Food(String foodName, LocalDate expirationDate, int pieces, int quantity){
+    protected Food(String foodName, LocalDate expirationDate, int weight, int quantity){
         this.foodName = foodName;
         this.expirationDate = expirationDate;
-        this.pieces = pieces;
+        this.weight = weight;
         this.quantity = quantity;
     }
+
+//    public int getDaysLeft(){
+//        int daysLeft = expirationDate.
+//    }
 
     public LocalDate getExpirationDate() {
         return expirationDate;
@@ -44,12 +53,12 @@ class Food implements Comparable<Food> {
         this.foodName = foodName;
     }
 
-    public int getPieces() {
-        return pieces;
+    public int getWeight() {
+        return weight;
     }
 
-    public void setPieces(int pieces) {
-        this.pieces = pieces;
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public int getQuantity() {
@@ -66,12 +75,12 @@ class Food implements Comparable<Food> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Food food = (Food) o;
-        return pieces == food.pieces && quantity == food.quantity && Objects.equals(expirationDate, food.expirationDate) && Objects.equals(foodName, food.foodName);
+        return weight == food.weight && quantity == food.quantity && Objects.equals(expirationDate, food.expirationDate) && Objects.equals(foodName, food.foodName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(expirationDate, foodName, pieces, quantity);
+        return Objects.hash(expirationDate, foodName, weight, quantity);
     }
 
     @Override
@@ -86,9 +95,45 @@ class Food implements Comparable<Food> {
             return resultsWeight;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return this.getExpirationDate().compareTo(other.getExpirationDate());
+        return this.getExpirationDate().compareTo(other.getExpirationDate());
+    }
+
+    protected Food(Parcel in) {
+        expirationDate = LocalDate.parse(in.readString());
+        foodName = in.readString();
+        weight = in.readInt();
+        quantity = in.readInt();
+    }
+
+    public static final Creator<Food> CREATOR = new Creator<Food>() {
+        @Override
+        public Food createFromParcel(Parcel in) {
+            return new Food(in);
         }
-        return resultsWeight;
+
+        @Override
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int flags) {
+        parcel.writeString(expirationDate.toString());
+        parcel.writeString(foodName);
+        parcel.writeInt(weight);
+        parcel.writeInt(quantity);
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format("Nazwa: %s, Ważność: %s, waga: %d, ilość: %d",foodName, expirationDate.toString(), weight, quantity);
     }
 }

@@ -2,68 +2,82 @@ package com.jszweda.kitchen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jszweda.kitchen.databinding.ActivityMainBinding;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    TextView txtvMain, tvExpDate;
-    Button addFood, goFridge;
-    EditText etFoodName, etQuantity, etWeight;
+    ActivityMainBinding binding;
+    ArrayList<Food> foodList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtvMain = findViewById(R.id.textViewMain);
-        tvExpDate = findViewById(R.id.tvExpDate);
-        etFoodName = findViewById(R.id.etInputFood);
-        etQuantity = findViewById(R.id.etQuantity);
-        etWeight = findViewById(R.id.etWeight);
-        goFridge = findViewById(R.id.goFridge);
-        addFood = findViewById(R.id.addFood);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        foodList.add(new Food("kasza", LocalDate.now(), 5, 6));
 
-        addFood.setOnClickListener(new View.OnClickListener() {
+        binding.addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String quantity = binding.etQuantity.getText().toString().strip();
+                String weight = binding.etWeight.getText().toString().strip();
+                String strFood = binding.etInputFood.getText().toString().strip();
+                LocalDate expDate = LocalDate.now();
 
-                if (txtvMain.length() > 80){
-                    txtvMain.setText("");
+                String regexDate = "\\d{1,2}-\\d{1,2}-\\d{4,}";
+                boolean matchesDate = binding.tvExpDate.getText().toString().matches(regexDate);
+                if (matchesDate) {
+                    expDate = LocalDate.parse(binding.tvExpDate.getText().toString(), DateTimeFormatter.ofPattern("d-M-yyyy"));
+                    Toast.makeText(getApplicationContext(), "parsed", Toast.LENGTH_SHORT).show();
+                } else {
+                    binding.tvExpDate.setText("Wybierz datę");
                 }
 
-                String strFood = etFoodName.getText().toString().strip();
-
-                if (!TextUtils.isEmpty(strFood) && !(strFood.length() == 0)) {
-                    txtvMain.append(" "+ strFood);
-                } else {
-                    etFoodName.setError("Wprowadź jedzenie");
+                if (isFieldEmpty(binding.etQuantity,"Wprowadź ilość")&&
+                isFieldEmpty(binding.etWeight,"Wprowadź wagę")&&
+                isFieldEmpty(binding.etQuantity,"Wybierz ilość") && matchesDate) {
+                foodList.add(new Food(strFood,expDate,Integer.parseInt(weight), Integer.parseInt(quantity)));
                 }
             }
         });
 
-        goFridge.setOnClickListener(new View.OnClickListener() {
+        binding.goFridge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), FridgeActivity.class);
+//              ArrayList<Food> parcelableList = new ArrayList<>(foodList);
+                i.putParcelableArrayListExtra("foodList", foodList);
                 startActivity(i);
             }
         });
 
-        tvExpDate.setOnClickListener(view -> {
+        binding.tvExpDate.setOnClickListener(view -> {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
 
             datePickerFragment.setterOnDateSelectedListener(new OnDateSelectedListener() {
@@ -71,14 +85,47 @@ public class MainActivity extends AppCompatActivity {
                 public void onDateSelected(int year, int month, int day) {
                     // Obsłuż wybraną datę
                     // Możesz zaktualizować TextView lub wykonać inne operacje
-                    String selectedDate = day + "/" + (month+1) + "/" + year;
-                    tvExpDate.setText(selectedDate);
+                    String selectedDate = day + "-" + (month+1) + "-" + year;
+                    binding.tvExpDate.setText(selectedDate);
                 }
             });
-
             datePickerFragment.show(getSupportFragmentManager(), "Wybierz datę:");
-
         });
+
+        binding.etQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    ((EditText)view).setText("");
+                }
+            }
+        });
+
+        binding.etWeight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    ((EditText)view).setText("");
+                }
+            }
+        });
+
+//        binding.etInputFood.setOnClickListener(view -> {
+//            ((EditText)view).setText("");
+//        });
+
+//        binding.etInputFood.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_DONE ||
+//                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+//                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
 
     }
@@ -106,6 +153,13 @@ public class MainActivity extends AppCompatActivity {
                 super.onOptionsItemSelected(item);
         }
         return false;
+    }
+    private boolean isFieldEmpty(TextView view, String message){
+        if (TextUtils.isEmpty(view.getText().toString())){
+            view.setError(message);
+            return false;
+        }
+        return true;
     }
 
 }

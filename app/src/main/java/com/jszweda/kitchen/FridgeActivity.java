@@ -5,43 +5,42 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.jszweda.kitchen.databinding.ActivityFridgeBinding;
+import com.jszweda.kitchen.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FridgeActivity extends AppCompatActivity {
 
-    ImageView img;
     RecyclerView recyclerView;
     Food[] foodList;
     FoodAdapter foodAdapter;
+    ActivityFridgeBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fridge);
+        binding = ActivityFridgeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        img = findViewById(R.id.imageView);
+        Intent i = getIntent();
+        ArrayList<Food> foodList = i.getParcelableArrayListExtra("foodList");
+        Food[] foodArray = new Food[foodList.size()];
+        foodList.toArray(foodArray);
+
         recyclerView = findViewById(R.id.recyclerview_item);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            foodList = new Food[]{
-                    new Food("Mięso wołowe", LocalDate.of(2023, 12,12), 2, 500),
-                    new Food("Woda źródlana", LocalDate.of(2024, 11,1), 5, 5000),
-                    new Food("Frytki", LocalDate.of(2024, 11,1), 2, 2),
-                    new Food("Sok", LocalDate.of(2026, 11,1), 6, 1),
-                    new Food("Sok", LocalDate.of(2026, 11,1), 6, 1),
-                    new Food("Sok", LocalDate.of(2026, 11,1), 6, 5000),
-                    new Food("Mięso wołowe", LocalDate.of(2026, 11,1), 6, 1),
-                    new Food("Sok", LocalDate.of(2026, 11,1), 6, 1),
-                    new Food("Sok", LocalDate.of(2026, 11,1), 6, 1),
-            };
-        }
-        foodAdapter = new FoodAdapter(foodList);
+        foodAdapter = new FoodAdapter(foodArray);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(foodAdapter);
@@ -51,14 +50,14 @@ public class FridgeActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(R.drawable.palmy_plaza)
-                .into(img);
+                .into(binding.imageView);
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Glide.with(this).clear(img);
+        Glide.with(this).clear(binding.imageView);
     }
 
     @Override
