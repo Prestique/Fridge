@@ -28,8 +28,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     @Override
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
         final Food selectedFood = listOfFood[position];
+
+        String days = selectedFood.getDaysLeft() == 1 ? " dzień" : " dni";
         holder.tvFoodName.setText(selectedFood.getFoodName());
-        holder.tvExpDate.setText(selectedFood.getExpirationDate().toString());
+        holder.tvExpDate.setText("Ważność: " + selectedFood.getDaysLeft() + days);
         holder.tvQuantity.setText("Ilość sztuk: " + selectedFood.getQuantity());
         holder.tvWeight.setText("Waga: " + selectedFood.getWeight());
 

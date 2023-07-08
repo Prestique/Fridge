@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -33,9 +34,11 @@ class Food implements Comparable<Food>, Parcelable {
         this.quantity = quantity;
     }
 
-//    public int getDaysLeft(){
-//        int daysLeft = expirationDate.
-//    }
+    public int getDaysLeft(){
+        LocalDate today = LocalDate.now();
+        Period diff = Period.between(today, expirationDate);
+        return diff.getDays();
+    }
 
     public LocalDate getExpirationDate() {
         return expirationDate;

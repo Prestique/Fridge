@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        foodList.add(new Food("kasza", LocalDate.now(), 5, 6));
+        foodList.add(new Food("kasza", LocalDate.now().plusDays(3), 5, 6));
 
         binding.addFood.setOnClickListener(new View.OnClickListener() {
             @Override
