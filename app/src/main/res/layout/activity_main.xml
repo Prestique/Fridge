@@ -85,11 +85,11 @@
 
     <TextView
         android:id="@+id/textViewMain"
-        android:layout_width="141dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="#ffb3ff"
-        android:text="gghj  ghjk gh"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"

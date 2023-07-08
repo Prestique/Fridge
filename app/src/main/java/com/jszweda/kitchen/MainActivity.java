@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         foodList.add(new Food("kasza", LocalDate.now().plusDays(3), 5, 6));
+        foodList.add(new Food("Mango", LocalDate.now().plusDays(10), 500, 2));
+        foodList.add(new Food("Szynka", LocalDate.now().minusDays(7), 120, 4));
+        foodList.add(new Food("Frytki", LocalDate.now().plusDays(180), 2, 2));
+        foodList.add(new Food("Burger", LocalDate.now().minusDays(2), 500, 2));
+        foodList.add(new Food("Puszka coli", LocalDate.now().plusDays(32), 500, 2));
+        foodList.add(new Food("Pizza", LocalDate.now().plusDays(1), 350, 1));
 
         binding.addFood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,14 +53,13 @@ public class MainActivity extends AppCompatActivity {
 
                 String quantity = binding.etQuantity.getText().toString().strip();
                 String weight = binding.etWeight.getText().toString().strip();
-                String strFood = binding.etInputFood.getText().toString().strip();
+                String foodName = binding.etInputFood.getText().toString().strip();
                 LocalDate expDate = LocalDate.now();
 
                 String regexDate = "\\d{1,2}-\\d{1,2}-\\d{4,}";
                 boolean matchesDate = binding.tvExpDate.getText().toString().matches(regexDate);
                 if (matchesDate) {
                     expDate = LocalDate.parse(binding.tvExpDate.getText().toString(), DateTimeFormatter.ofPattern("d-M-yyyy"));
-                    Toast.makeText(getApplicationContext(), "parsed", Toast.LENGTH_SHORT).show();
                 } else {
                     binding.tvExpDate.setText("Wybierz datę");
                 }
@@ -62,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
                 if (isFieldEmpty(binding.etQuantity,"Wprowadź ilość")&&
                 isFieldEmpty(binding.etWeight,"Wprowadź wagę")&&
                 isFieldEmpty(binding.etQuantity,"Wybierz ilość") && matchesDate) {
-                foodList.add(new Food(strFood,expDate,Integer.parseInt(weight), Integer.parseInt(quantity)));
+                foodList.add(new Food(foodName,expDate,Integer.parseInt(weight), Integer.parseInt(quantity)));
+                Toast.makeText(getApplicationContext(), "Dodano "+ foodName, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -71,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), FridgeActivity.class);
-//              ArrayList<Food> parcelableList = new ArrayList<>(foodList);
                 i.putParcelableArrayListExtra("foodList", foodList);
                 startActivity(i);
             }
@@ -110,9 +115,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        binding.etInputFood.setOnClickListener(view -> {
-//            ((EditText)view).setText("");
-//        });
+        binding.etInputFood.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    ((EditText)view).setText("");
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        });
 
 //        binding.etInputFood.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override

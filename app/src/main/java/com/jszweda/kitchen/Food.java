@@ -7,6 +7,7 @@ import android.os.Parcelable;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -28,16 +29,16 @@ class Food implements Comparable<Food>, Parcelable {
         this.weight = weight;
     }
     protected Food(String foodName, LocalDate expirationDate, int weight, int quantity){
-        this.foodName = foodName;
+        this.foodName = foodName.substring(0,1).toUpperCase().concat(foodName.substring(1).toLowerCase());
         this.expirationDate = expirationDate;
         this.weight = weight;
         this.quantity = quantity;
     }
 
-    public int getDaysLeft(){
+    public long getDaysLeft(){
         LocalDate today = LocalDate.now();
-        Period diff = Period.between(today, expirationDate);
-        return diff.getDays();
+        long diff = ChronoUnit.DAYS.between(today, expirationDate);
+        return diff;
     }
 
     public LocalDate getExpirationDate() {

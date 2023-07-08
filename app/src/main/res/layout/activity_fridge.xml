@@ -13,7 +13,36 @@
         android:layout_height="150dp"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/sortExpDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data ważności"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="2dp"
+        android:backgroundTint="@color/selective_yellow"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="-6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/sortName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/selective_yellow"
+        android:padding="2dp"
+        android:layout_marginStart="2dp"
+        android:text="Nazwa"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sortExpDate"
+        app:layout_constraintStart_toEndOf="@+id/sortExpDate" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_item"
