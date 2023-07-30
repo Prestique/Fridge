@@ -12,9 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
     private ArrayList<Food> listOfFood;
+    private OnItemClickListener listener;
 
     public FoodAdapter(ArrayList<Food> listOfFood) {
         this.listOfFood = listOfFood;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,6 +42,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.tvQuantity.setText("Sztuk: " + selectedFood.getQuantity());
         holder.tvWeight.setText("Waga: " + selectedFood.getWeight());
 
+        holder.itemView.setOnClickListener(view -> {
+            if (listener != null){
+                listener.onItemClick(position);
+            }
+        });
+
     }
 
     @Override
@@ -57,3 +68,4 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     }
 
 }
+

@@ -1,12 +1,17 @@
 package com.jszweda.kitchen;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jszweda.kitchen.databinding.ActivityFridgeBinding;
@@ -42,6 +47,14 @@ public class FridgeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(foodAdapter);
 
+        foodAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                showEditPopup();
+                Toast.makeText(getApplicationContext(), "hello " + foodList.get(position).getFoodName()  ,Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Glide.with(this)
                 .load(R.drawable.palmy_plaza)
                 .into(binding.imageView);
@@ -70,6 +83,28 @@ public class FridgeActivity extends AppCompatActivity {
 
     }
 
+    private void showEditPopup() {
+        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
+        View view = layoutInflater.inflate(R.layout.selected_item, null);
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setView(view);
+        alertDialog.setPositiveButton("Zapisz", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "Zapisz " ,Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        alertDialog.setNegativeButton("Usuń", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "Usuń " ,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.show();
+    }
 
 
     @Override

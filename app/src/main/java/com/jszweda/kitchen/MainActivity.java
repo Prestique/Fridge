@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jszweda.kitchen.databinding.ActivityMainBinding;
+import com.jszweda.kitchen.databinding.SelectedItemBinding;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
         foodList.add(new Food("Burger", LocalDate.now().minusDays(2), 500, 2));
         foodList.add(new Food("Puszka coli", LocalDate.now().plusDays(32), 500, 2));
         foodList.add(new Food("Pizza", LocalDate.now().plusDays(1), 350, 1));
+        foodList.add(new Food("Cheetosy", LocalDate.now().plusDays(3), 5, 6));
+        foodList.add(new Food("Lasy", LocalDate.now().plusDays(10), 500, 2));
+        foodList.add(new Food("Spaghetti z tytki", LocalDate.now().minusDays(7), 120, 4));
+        foodList.add(new Food("jabłka", LocalDate.now().plusDays(180), 2, 2));
+        foodList.add(new Food("Frytototrtilla", LocalDate.now().minusDays(2), 500, 2));
+        foodList.add(new Food("Spaghetti bolognese", LocalDate.now().plusDays(32), 500, 2));
+        foodList.add(new Food("Ta kwadratowa", LocalDate.now().plusDays(1), 350, 1));
 
         binding.addFood.setOnClickListener(new View.OnClickListener() {
             @Override
