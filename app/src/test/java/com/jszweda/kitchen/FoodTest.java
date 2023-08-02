@@ -28,6 +28,13 @@ public class FoodTest {
         Assert.assertEquals(-99, diffDays);
     }
 
+    @Test
+    public void parseDateTest(){
+        Food food = new Food("kasza", LocalDate.of(2000, 1, 30), 5, 6);
+        String date = food.getDateAsString();
+        Assert.assertEquals("30-1-2000", date);
+    }
+
 
 
 }

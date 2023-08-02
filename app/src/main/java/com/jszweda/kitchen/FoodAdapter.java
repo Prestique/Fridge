@@ -39,7 +39,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         String days = selectedFood.getDaysLeft() == 1 ? " dzień" : " dni";
         holder.tvFoodName.setText(selectedFood.getFoodName());
         holder.tvExpDate.setText("Ważność: " + selectedFood.getDaysLeft() + days);
-        holder.tvQuantity.setText("Sztuk: " + selectedFood.getQuantity());
+        holder.tvQuantity.setText("Ilość: " + selectedFood.getQuantity());
         holder.tvWeight.setText("Waga: " + selectedFood.getWeight());
 
         holder.itemView.setOnClickListener(view -> {

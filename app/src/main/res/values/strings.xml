@@ -2,8 +2,9 @@
     <string name="app_name">Kuchnia</string>
     <string name="text_add">Dodaj</string>
     <string name="text_fridge">Lodówka</string>
-    <string name="text_exp_date">Data ważności d-m-r</string>
+    <string name="text_exp_date">Data ważności</string>
     <string name="text_quantity">Ilość</string>
     <string name="text_weight">Waga</string>
     <string name="text_add_food">Proszę wprowadzić jedzenie</string>
+    <string name="name_food">Nazwa</string>
 </resources>

@@ -8,25 +8,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jszweda.kitchen.databinding.ActivityMainBinding;
-import com.jszweda.kitchen.databinding.SelectedItemBinding;
+
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,26 +54,8 @@ public class MainActivity extends AppCompatActivity {
         binding.addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String quantity = binding.etQuantity.getText().toString().strip();
-                String weight = binding.etWeight.getText().toString().strip();
-                String foodName = binding.etInputFood.getText().toString().strip();
-                LocalDate expDate = LocalDate.now();
-
-                String regexDate = "\\d{1,2}-\\d{1,2}-\\d{4,}";
-                boolean matchesDate = binding.tvExpDate.getText().toString().matches(regexDate);
-                if (matchesDate) {
-                    expDate = LocalDate.parse(binding.tvExpDate.getText().toString(), DateTimeFormatter.ofPattern("d-M-yyyy"));
-                } else {
-                    binding.tvExpDate.setText("Wybierz datę");
-                }
-
-                if (isFieldEmpty(binding.etQuantity,"Wprowadź ilość")&&
-                isFieldEmpty(binding.etWeight,"Wprowadź wagę")&&
-                isFieldEmpty(binding.etQuantity,"Wybierz ilość") && matchesDate) {
-                foodList.add(new Food(foodName,expDate,Integer.parseInt(weight), Integer.parseInt(quantity)));
-                Toast.makeText(getApplicationContext(), "Dodano "+ foodName, Toast.LENGTH_SHORT).show();
-                }
+                HelperClass.saveFood(binding.etQuantity, binding.etWeight, binding.etInputFood, binding.tvExpDate,
+                        getApplicationContext(), foodList);
             }
         });
 
@@ -92,17 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding.tvExpDate.setOnClickListener(view -> {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
-
-            datePickerFragment.setterOnDateSelectedListener(new OnDateSelectedListener() {
-                @Override
-                public void onDateSelected(int year, int month, int day) {
-                    // Obsłuż wybraną datę
-                    // Możesz zaktualizować TextView lub wykonać inne operacje
-                    String selectedDate = day + "-" + (month+1) + "-" + year;
-                    binding.tvExpDate.setText(selectedDate);
-                }
-            });
-            datePickerFragment.show(getSupportFragmentManager(), "Wybierz datę:");
+            HelperClass.setDateOnTextView(datePickerFragment, (TextView) view, getSupportFragmentManager());
         });
 
         binding.etQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -173,13 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 super.onOptionsItemSelected(item);
         }
         return false;
-    }
-    private boolean isFieldEmpty(TextView view, String message){
-        if (TextUtils.isEmpty(view.getText().toString())){
-            view.setError(message);
-            return false;
-        }
-        return true;
     }
 
 }

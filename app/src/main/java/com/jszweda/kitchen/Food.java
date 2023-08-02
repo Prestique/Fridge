@@ -7,6 +7,7 @@ import android.os.Parcelable;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -134,6 +135,14 @@ class Food implements Comparable<Food>, Parcelable {
         parcel.writeInt(quantity);
     }
 
+    public String getDateAsString(){
+        if (expirationDate == null) {
+            return "date is null";
+        }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d-M-y");
+        String date = dtf.format(expirationDate);
+        return date;
+    }
 
     @NonNull
     @Override

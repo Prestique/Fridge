@@ -9,24 +9,29 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jszweda.kitchen.databinding.ActivityFridgeBinding;
+import com.jszweda.kitchen.databinding.SelectedItemBinding;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class FridgeActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    ArrayList<Food> foodList;
-    FoodAdapter foodAdapter;
-    ActivityFridgeBinding binding;
-    boolean isDateReversedOrder = false;
-    boolean isNameReversedOrder = true;
+    private RecyclerView recyclerView;
+    private ArrayList<Food> foodList;
+    private FoodAdapter foodAdapter;
+    private ActivityFridgeBinding binding;
+    private boolean isDateReversedOrder = false;
+    private boolean isNameReversedOrder = true;
+    private SelectedItemBinding bindingEditPopup;
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -50,8 +55,7 @@ public class FridgeActivity extends AppCompatActivity {
         foodAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                showEditPopup();
-                Toast.makeText(getApplicationContext(), "hello " + foodList.get(position).getFoodName()  ,Toast.LENGTH_SHORT).show();
+                showEditItemPopup(position);
             }
         });
 
@@ -83,38 +87,54 @@ public class FridgeActivity extends AppCompatActivity {
 
     }
 
-    private void showEditPopup() {
-        LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
-        View view = layoutInflater.inflate(R.layout.selected_item, null);
-
+    private void showEditItemPopup(int index) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setView(view);
+        bindingEditPopup = SelectedItemBinding.inflate(getLayoutInflater());
+        alertDialog.setView(bindingEditPopup.getRoot());
+
+        bindingEditPopup.etQuantity.setText(""+foodList.get(index).getQuantity());
+        bindingEditPopup.etWeight.setText(""+foodList.get(index).getWeight());
+        bindingEditPopup.etInputFood.setText(foodList.get(index).getFoodName());
+        bindingEditPopup.tvExpDate.setText(foodList.get(index).getDateAsString());
+
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+
+        bindingEditPopup.tvExpDate.setOnClickListener(view -> {
+            HelperClass.setDateOnTextView(datePickerFragment, (TextView) view, getSupportFragmentManager());
+        });
+
+
         alertDialog.setPositiveButton("Zapisz", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "Zapisz " ,Toast.LENGTH_SHORT).show();
-
+                HelperClass.editFood(bindingEditPopup.etQuantity, bindingEditPopup.etWeight, bindingEditPopup.etInputFood,
+                        bindingEditPopup.tvExpDate, getApplicationContext(), foodList, index);
+                foodAdapter.notifyItemChanged(index);
             }
         });
+
         alertDialog.setNegativeButton("Usuń", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(), "Usuń " ,Toast.LENGTH_SHORT).show();
+                foodList.remove(index);
+                foodAdapter.notifyItemRemoved(index);
+                if (index < foodList.size()) {
+                    foodAdapter.notifyItemRangeChanged(index, foodList.size() - index);
+                }
             }
         });
 
         alertDialog.show();
     }
 
-
     @Override
     protected void onStop() {
         super.onStop();
-        Glide.with(this).clear(binding.imageView);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        Glide.with(this).clear(binding.imageView);
     }
 }
