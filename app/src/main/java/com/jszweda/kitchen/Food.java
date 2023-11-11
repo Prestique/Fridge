@@ -1,29 +1,42 @@
 package com.jszweda.kitchen;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "food_table")
 class Food implements Comparable<Food>, Parcelable {
+    @ColumnInfo(name = "expiration_date")
     protected LocalDate expirationDate;
+    @ColumnInfo(name = "food_name")
     protected String foodName;
+    @ColumnInfo(name = "weight")
     protected int weight = 0;
+    @ColumnInfo(name = "quantity")
     protected int quantity = 0;
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
+    private long id;
 
+    @Ignore
     private Food(){}
+    @Ignore
     protected Food(String foodName, LocalDate expirationDate){
         this.foodName = foodName;
         this.expirationDate = expirationDate;
     }
+    @Ignore
     protected Food(String foodName, LocalDate expirationDate, int weight){
         this.foodName = foodName;
         this.expirationDate = expirationDate;
@@ -148,5 +161,13 @@ class Food implements Comparable<Food>, Parcelable {
     @Override
     public String toString() {
         return String.format("Nazwa: %s, Ważność: %s, waga: %d, ilość: %d",foodName, expirationDate.toString(), weight, quantity);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
