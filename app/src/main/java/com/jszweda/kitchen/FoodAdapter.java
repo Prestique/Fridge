@@ -55,7 +55,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         return listOfFood.size();
     }
 
-    public class FoodViewHolder extends RecyclerView.ViewHolder {
+    public class   FoodViewHolder extends RecyclerView.ViewHolder {
         public TextView tvFoodName, tvWeight, tvExpDate, tvQuantity;
 
         public FoodViewHolder(@NonNull View itemView) {

@@ -16,7 +16,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "food_table")
-class Food implements Comparable<Food>, Parcelable {
+public class Food implements Comparable<Food>, Parcelable {
     @ColumnInfo(name = "expiration_date")
     protected LocalDate expirationDate;
     @ColumnInfo(name = "food_name")

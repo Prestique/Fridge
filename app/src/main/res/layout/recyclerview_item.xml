@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+<data>
+    <variable
+        name="food"
+        type="com.jszweda.kitchen.Food" />
+</data>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,7 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="4dp"
-        android:text="Mięso wieprzowe"
+        android:text="@{food.foodName}"
+        android:hint="Nazwa"
         android:textColor="@color/black"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginEnd="4dp"
-        android:text="500"
+        android:text="@{food.weight}"
+        android:hint="waga"
         android:textColor="@color/black"
         android:textSize="26sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvFoodName"
@@ -47,10 +57,12 @@
         android:layout_height="35dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
-        android:text="5 sztuk"
+        android:text="@{food.quantity}"
+        android:hint="sztuki"
         android:textColor="@color/black"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="@+id/tvWeight"
         app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

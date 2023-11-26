@@ -35,6 +35,7 @@ android {
         dataBinding = true
     }
     buildToolsVersion '30.0.3'
+    namespace 'com.jszweda.kitchen'
 }
 
 dependencies {
