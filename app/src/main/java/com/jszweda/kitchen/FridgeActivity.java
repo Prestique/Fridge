@@ -2,33 +2,39 @@ package com.jszweda.kitchen;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jszweda.kitchen.databinding.ActivityFridgeBinding;
 import com.jszweda.kitchen.databinding.SelectedItemBinding;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class FridgeActivity extends AppCompatActivity {
+    //Data Source
+    private FoodDatabase foodDatabase;
+    private ArrayList<Food> foodList = new ArrayList<>();
+    //Adapter
+    private FoodAdapter foodAdapter;
+    //Binding
+    private ActivityFridgeBinding fridgeBinding;
+    MyViewModel viewModel;
 
     private RecyclerView recyclerView;
-    private ArrayList<Food> foodList;
-    private FoodAdapter foodAdapter;
-    private ActivityFridgeBinding binding;
     private boolean isDateReversedOrder = false;
     private boolean isNameReversedOrder = true;
     private SelectedItemBinding bindingEditPopup;
@@ -38,19 +44,54 @@ public class FridgeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fridge);
-        binding = ActivityFridgeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
+//        setContentView(R.layout.activity_fridge);
+//        setContentView(fridgeBinding.getRoot());
+        fridgeBinding = DataBindingUtil.setContentView(this, R.layout.activity_fridge);
+        fridgeBinding.setLifecycleOwner(this);
+        //RecyclerView
+        recyclerView = fridgeBinding.recyclerviewItem;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+/*
         Intent i = getIntent();
         foodList = i.getParcelableArrayListExtra("foodList");
         foodList.sort(Comparator.comparingLong(Food::getDaysLeft));
-
         recyclerView = binding.recyclerviewItem;
         foodAdapter = new FoodAdapter(foodList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(foodAdapter);
+ */
+        //Database
+        foodDatabase = FoodDatabase.getInstance(this);
+        //View Model
+        viewModel = new ViewModelProvider(this).get(MyViewModel.class);
+
+        //Insert food for test
+//        Food f1 = new Food("Kawa", LocalDate.now().plusDays(5),500, 2);
+//        viewModel.addFood(f1);
+
+        //Loading the data from ROOM DB
+        viewModel.getAllFoods().observe(this,
+                new Observer<List<Food>>() {
+                    @Override
+                    public void onChanged(List<Food> foods) {
+                        foodList.clear();
+                        int i = 0;
+                        for (Food f: foods) {
+                            Log.e("FOOD ", f.getFoodName() + " " + i++);
+                            foodList.add(f);
+                        }
+                        foodAdapter.notifyDataSetChanged();
+                    }
+                });
+
+        //Adapter
+        foodAdapter = new FoodAdapter(foodList);
+
+        //Linking recyclerView with the Adapter
+        recyclerView.setAdapter(foodAdapter);
+
 
         foodAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -61,9 +102,9 @@ public class FridgeActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(R.drawable.palmy_plaza)
-                .into(binding.imageView);
+                .into(fridgeBinding.imageView);
 
-        binding.sortExpDate.setOnClickListener(view -> {
+        fridgeBinding.sortExpDate.setOnClickListener(view -> {
             if (isDateReversedOrder) {
                 foodList.sort(Comparator.comparingLong(Food::getDaysLeft));
                 isDateReversedOrder = false;
@@ -74,7 +115,7 @@ public class FridgeActivity extends AppCompatActivity {
             foodAdapter.notifyDataSetChanged();
         });
 
-        binding.sortName.setOnClickListener(view -> {
+        fridgeBinding.sortName.setOnClickListener(view -> {
             if (isNameReversedOrder) {
                 foodList.sort(Comparator.comparing(Food::getFoodName));
                 isNameReversedOrder = false;
@@ -92,10 +133,12 @@ public class FridgeActivity extends AppCompatActivity {
         bindingEditPopup = SelectedItemBinding.inflate(getLayoutInflater());
         alertDialog.setView(bindingEditPopup.getRoot());
 
-        bindingEditPopup.etQuantity.setText(""+foodList.get(index).getQuantity());
-        bindingEditPopup.etWeight.setText(""+foodList.get(index).getWeight());
-        bindingEditPopup.etInputFood.setText(foodList.get(index).getFoodName());
-        bindingEditPopup.tvExpDate.setText(foodList.get(index).getDateAsString());
+        Food selectedFood = foodList.get(index);
+
+        bindingEditPopup.etQuantity.setText(""+selectedFood.getQuantity());
+        bindingEditPopup.etWeight.setText(""+selectedFood.getWeight());
+        bindingEditPopup.etInputFood.setText(selectedFood.getFoodName());
+        bindingEditPopup.tvExpDate.setText(selectedFood.getDateAsString());
 
         DatePickerFragment datePickerFragment = new DatePickerFragment();
 
@@ -108,7 +151,7 @@ public class FridgeActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 HelperClass.editFood(bindingEditPopup.etQuantity, bindingEditPopup.etWeight, bindingEditPopup.etInputFood,
-                        bindingEditPopup.tvExpDate, getApplicationContext(), foodList, index);
+                        bindingEditPopup.tvExpDate, selectedFood, viewModel);
                 foodAdapter.notifyItemChanged(index);
             }
         });
@@ -116,6 +159,7 @@ public class FridgeActivity extends AppCompatActivity {
         alertDialog.setNegativeButton("Usuń", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                viewModel.deleteFood(foodList.get(index));
                 foodList.remove(index);
                 foodAdapter.notifyItemRemoved(index);
                 if (index < foodList.size()) {

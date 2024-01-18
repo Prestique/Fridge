@@ -2,6 +2,7 @@ package com.jszweda.kitchen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,34 +29,25 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     ArrayList<Food> foodList = new ArrayList<>();
+    MyViewModel myViewModel;
+    FoodDatabase foodDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
+        myViewModel = new ViewModelProvider(this).get(MyViewModel.class);
+        foodDatabase = FoodDatabase.getInstance(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         foodList.add(new Food("kasza", LocalDate.now().plusDays(3), 5, 6));
-        foodList.add(new Food("Mango", LocalDate.now().plusDays(10), 500, 2));
-        foodList.add(new Food("Szynka", LocalDate.now().minusDays(7), 120, 4));
-        foodList.add(new Food("Frytki", LocalDate.now().plusDays(180), 2, 2));
-        foodList.add(new Food("Burger", LocalDate.now().minusDays(2), 500, 2));
-        foodList.add(new Food("Puszka coli", LocalDate.now().plusDays(32), 500, 2));
-        foodList.add(new Food("Pizza", LocalDate.now().plusDays(1), 350, 1));
-        foodList.add(new Food("Cheetosy", LocalDate.now().plusDays(3), 5, 6));
-        foodList.add(new Food("Lasy", LocalDate.now().plusDays(10), 500, 2));
-        foodList.add(new Food("Spaghetti z tytki", LocalDate.now().minusDays(7), 120, 4));
-        foodList.add(new Food("jabłka", LocalDate.now().plusDays(180), 2, 2));
-        foodList.add(new Food("Frytototrtilla", LocalDate.now().minusDays(2), 500, 2));
-        foodList.add(new Food("Spaghetti bolognese", LocalDate.now().plusDays(32), 500, 2));
-        foodList.add(new Food("Ta kwadratowa", LocalDate.now().plusDays(1), 350, 1));
-
         binding.addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 HelperClass.saveFood(binding.etQuantity, binding.etWeight, binding.etInputFood, binding.tvExpDate,
-                        getApplicationContext(), foodList);
+                        getApplicationContext(), myViewModel);
+
             }
         });
 

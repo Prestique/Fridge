@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginEnd="4dp"
-        android:text="@{food.weight}"
+        android:text='@{Integer.valueOf(food.weight) != null ? String.valueOf(food.weight) : "brak"}'
         android:hint="waga"
         android:textColor="@color/black"
         android:textSize="26sp"
@@ -57,7 +57,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
-        android:text="@{food.quantity}"
+        android:text='@{Integer.valueOf(food.quantity) != null ? String.valueOf(food.quantity) : "brak"}'
         android:hint="sztuki"
         android:textColor="@color/black"
         android:textSize="26sp"

@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentManager;
 class HelperClass {
 
    public static void saveFood(EditText etQuantity, EditText etWeight, EditText etFoodName,
-                               TextView tvExpDate, Context context, ArrayList<Food> foodList){
+                               TextView tvExpDate, Context context, MyViewModel myViewModel){
 
       String quantity = etQuantity.getText().toString().strip();
       String weight = etWeight.getText().toString().strip();
@@ -34,13 +34,13 @@ class HelperClass {
       if (isFieldEmpty(etFoodName,"Wprowadź jedzenie")&&
               isFieldEmpty(etWeight,"Wprowadź wagę")&&
               isFieldEmpty(etQuantity,"Wybierz ilość") && matchesDate) {
-         foodList.add(new Food(foodName,expDate,Integer.parseInt(weight), Integer.parseInt(quantity)));
+         myViewModel.addFood(new Food(foodName,expDate,Integer.parseInt(weight), Integer.parseInt(quantity)));
          Toast.makeText(context, "Dodano "+ foodName, Toast.LENGTH_SHORT).show();
       }
    }
 
    public static void editFood(EditText etQuantity, EditText etWeight, EditText etFoodName,
-                               TextView tvExpDate, Context context, ArrayList<Food> foodList, int index){
+                               TextView tvExpDate, Food selectedFood, MyViewModel myViewModel){
 
       String quantity = etQuantity.getText().toString().strip();
       String weight = etWeight.getText().toString().strip();
@@ -59,7 +59,11 @@ class HelperClass {
       if (isFieldEmpty(etQuantity,"Wprowadź ilość")&&
               isFieldEmpty(etWeight,"Wprowadź wagę")&&
               isFieldEmpty(etQuantity,"Wybierz ilość") && matchesDate) {
-         foodList.set(index, new Food(foodName,expDate,Integer.parseInt(weight), Integer.parseInt(quantity)));
+         selectedFood.setExpirationDate(expDate);
+         selectedFood.setFoodName(foodName);
+         selectedFood.setQuantity(Integer.parseInt(quantity));
+         selectedFood.setWeight(Integer.parseInt(weight));
+         myViewModel.updateFood(selectedFood);
       }
    }
 

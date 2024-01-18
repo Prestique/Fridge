@@ -1,6 +1,7 @@
 package com.jszweda.kitchen;
 
 import android.app.Application;
+import android.util.Log;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-class MyViewModel extends AndroidViewModel {
+public class MyViewModel extends AndroidViewModel {
 
    private Repository repository;
    private LiveData<List<Food>> allFoods;
@@ -31,6 +32,9 @@ class MyViewModel extends AndroidViewModel {
    }
    public void updateFood(Food food){
       repository.updateFood(food);
+   }
+   public Food getFood(long id){
+      return repository.getFood(id);
    }
 
 
