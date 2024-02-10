@@ -11,15 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jszweda.kitchen.databinding.ActivityFridgeBinding;
 import com.jszweda.kitchen.databinding.SelectedItemBinding;
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -46,12 +44,14 @@ public class FridgeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_fridge);
 //        setContentView(fridgeBinding.getRoot());
+        getSupportActionBar().hide();
         fridgeBinding = DataBindingUtil.setContentView(this, R.layout.activity_fridge);
         fridgeBinding.setLifecycleOwner(this);
         //RecyclerView
         recyclerView = fridgeBinding.recyclerviewItem;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
 /*
         Intent i = getIntent();
         foodList = i.getParcelableArrayListExtra("foodList");
@@ -77,9 +77,8 @@ public class FridgeActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(List<Food> foods) {
                         foodList.clear();
-                        int i = 0;
+
                         for (Food f: foods) {
-                            Log.e("FOOD ", f.getFoodName() + " " + i++);
                             foodList.add(f);
                         }
                         foodAdapter.notifyDataSetChanged();

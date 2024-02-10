@@ -170,4 +170,5 @@ public class Food implements Comparable<Food>, Parcelable {
     public void setId(long id) {
         this.id = id;
     }
+
 }

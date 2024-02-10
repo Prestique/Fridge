@@ -1,10 +1,9 @@
 package com.jszweda.kitchen;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.jaredrummler.fastscrollrecyclerview.FastScrollRecyclerView;
 import com.jszweda.kitchen.databinding.RecyclerviewItemBinding;
 
 import java.util.ArrayList;
@@ -13,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder>
+        implements FastScrollRecyclerView.SectionedAdapter {
     private ArrayList<Food> listOfFood;
     private OnItemClickListener listener;
 
@@ -68,6 +68,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             return 0;
         }
     }
+
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return listOfFood.get(position).getFoodName();
+    }
+
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {
 //        public TextView tvFoodName, tvWeight, tvExpDate, tvQuantity;

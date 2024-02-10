@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +24,6 @@ import com.jszweda.kitchen.databinding.ActivityMainBinding;
 
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), FridgeActivity.class);
-                i.putParcelableArrayListExtra("foodList", foodList);
+//                i.putParcelableArrayListExtra("foodList", foodList);
                 startActivity(i);
             }
         });
@@ -123,16 +124,37 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.item1 ->
-                Toast.makeText(this, "Item1", Toast.LENGTH_SHORT).show();
+            case R.id.item1: {
+                String number = "505505505";
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+number));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "No app can handle this action", Toast.LENGTH_SHORT).show();
+                }
+//                try {
+//                    startActivity(intent);
+//                } catch (ActivityNotFoundException e) {
+//                    Toast.makeText(this, "No app can handle this action", Toast.LENGTH_SHORT).show();
+//                }
+                return true;
+            }
 
-            case R.id.item2 ->
-                Toast.makeText(this, "item2", Toast.LENGTH_SHORT).show();
+            case R.id.item2:
+                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                intent.putExtra(SearchManager.QUERY, "pizza");
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "No app can handle this action", Toast.LENGTH_SHORT).show();
+                }
 
-            default ->
-                super.onOptionsItemSelected(item);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
     }
 
 }

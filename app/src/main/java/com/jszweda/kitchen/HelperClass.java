@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import androidx.fragment.app.FragmentManager;
 

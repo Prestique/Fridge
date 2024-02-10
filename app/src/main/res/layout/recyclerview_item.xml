@@ -1,68 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 <data>
     <variable
         name="food"
         type="com.jszweda.kitchen.Food" />
 </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="4dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#CDFFFFFF"
 
-    <TextView
-        android:id="@+id/tvFoodName"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="4dp"
-        android:text="@{food.foodName}"
-        android:hint="Nazwa"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-    <TextView
-        android:id="@+id/tvExpDate"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="0dp"
-        android:text="6 dni ważności"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        app:layout_constraintStart_toStartOf="@+id/tvFoodName"
-        app:layout_constraintTop_toBottomOf="@+id/tvFoodName" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="4dp">
 
-    <TextView
-        android:id="@+id/tvWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginEnd="4dp"
-        android:text='@{Integer.valueOf(food.weight) != null ? String.valueOf(food.weight) : "brak"}'
-        android:hint="waga"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvFoodName"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <TextView
+                android:id="@+id/tvFoodName"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:hint="Nazwa"
+                android:text="@{food.foodName}"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvQuantity"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:text='@{Integer.valueOf(food.quantity) != null ? String.valueOf(food.quantity) : "brak"}'
-        android:hint="sztuki"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        app:layout_constraintEnd_toEndOf="@+id/tvWeight"
-        app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
+            <TextView
+                android:id="@+id/tvExpDate"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="6 dni ważności"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvFoodName"
+                app:layout_constraintTop_toBottomOf="@+id/tvFoodName" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="4dp"
+                android:text='@{Integer.valueOf(food.weight) != null ? String.valueOf(food.weight) : "brak"}'
+                android:hint="waga"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvFoodName"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:text='@{Integer.valueOf(food.quantity) != null ? String.valueOf(food.quantity) : "brak"}'
+                android:hint="sztuki"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvWeight"
+                app:layout_constraintTop_toBottomOf="@+id/tvWeight" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>
