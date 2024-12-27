@@ -13,61 +13,61 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class DatePickerFragment extends DialogFragment
-        implements DatePickerDialog.OnDateSetListener{
+        implements DatePickerDialog.OnDateSetListener {
 
-   private int day = 0, year = 0, month = 0;
-   private OnDateSelectedListener dateSelectedListener;
+    private int day = 0, year = 0, month = 0;
+    private OnDateSelectedListener dateSelectedListener;
 
-   public void setterOnDateSelectedListener(OnDateSelectedListener listener) {
-      this.dateSelectedListener = listener;
-   }
+    public void setterOnDateSelectedListener(OnDateSelectedListener listener) {
+        this.dateSelectedListener = listener;
+    }
 
-   @NonNull
-   @Override
-   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-      Calendar calendar = Calendar.getInstance();
-      int day = calendar.get(Calendar.DAY_OF_MONTH);
-      int month = calendar.get(Calendar.MONTH);
-      int year = calendar.get(Calendar.YEAR);
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
 
-      return new DatePickerDialog(requireContext(), this, year, month, day);
-   }
+        return new DatePickerDialog(requireContext(), this, year, month, day);
+    }
 
-   @Override
-   public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
-      if (dateSelectedListener != null) {
-         dateSelectedListener.onDateSelected(year, month, day);
-      }
+        if (dateSelectedListener != null) {
+            dateSelectedListener.onDateSelected(year, month, day);
+        }
 
-      Toast.makeText(getContext(), "Date set", Toast.LENGTH_SHORT).show();
-      this.year = year;
-      this.month = month;
-      this.day = day;
-   }
+        Toast.makeText(getContext(), "Date set", Toast.LENGTH_SHORT).show();
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 
-   public int getDay() {
-      return day;
-   }
+    public int getDay() {
+        return day;
+    }
 
-   public void setDay(int day) {
-      this.day = day;
-   }
+    public void setDay(int day) {
+        this.day = day;
+    }
 
-   public int getYear() {
-      return year;
-   }
+    public int getYear() {
+        return year;
+    }
 
-   public void setYear(int year) {
-      this.year = year;
-   }
+    public void setYear(int year) {
+        this.year = year;
+    }
 
-   public int getMonth() {
-      return month;
-   }
+    public int getMonth() {
+        return month;
+    }
 
-   public void setMonth(int month) {
-      this.month = month;
-   }
+    public void setMonth(int month) {
+        this.month = month;
+    }
 }
 

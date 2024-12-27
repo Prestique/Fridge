@@ -37,7 +37,6 @@ public class FridgeActivity extends AppCompatActivity {
     private boolean isNameReversedOrder = true;
     private SelectedItemBinding bindingEditPopup;
 
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +50,7 @@ public class FridgeActivity extends AppCompatActivity {
         recyclerView = fridgeBinding.recyclerviewItem;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
 
 /*
         Intent i = getIntent();
@@ -77,10 +77,7 @@ public class FridgeActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(List<Food> foods) {
                         foodList.clear();
-
-                        for (Food f: foods) {
-                            foodList.add(f);
-                        }
+                        foodList.addAll(foods);
                         foodAdapter.notifyDataSetChanged();
                     }
                 });

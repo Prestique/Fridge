@@ -20,6 +20,6 @@ interface FoodDAO {
  void update(Food food);
  @Query("SELECT * FROM food_table")
  LiveData<List<Food>> getAll();
- @Query("SELECT * FROM food_table WHERE id =:id")
+ @Query("SELECT * FROM food_table WHERE id ==:id")
  Food getFood(long id);
 }

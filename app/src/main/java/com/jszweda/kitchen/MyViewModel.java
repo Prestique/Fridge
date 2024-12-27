@@ -11,16 +11,18 @@ import androidx.lifecycle.LiveData;
 public class MyViewModel extends AndroidViewModel {
 
    private Repository repository;
-   private LiveData<List<Food>> allFoods;
+   LiveData<List<Food>> allFoods;
 
    public MyViewModel(@NonNull Application application) {
       super(application);
       this.repository = new Repository(application);
+//      allFoods = repository.getAllFoods();
    }
 
    public LiveData<List<Food>> getAllFoods(){
       allFoods = repository.getAllFoods();
       return allFoods;
+//      return repository.getAllFoods();
    }
 
    public void addFood(Food food){

@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         binding.etQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus){
-                    ((EditText)view).setText("");
+                if (hasFocus) {
+                    ((EditText) view).setText("");
                 }
             }
         });
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         binding.etWeight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus){
-                    ((EditText)view).setText("");
+                if (hasFocus) {
+                    ((EditText) view).setText("");
                 }
             }
         });
@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         binding.etInputFood.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus){
-                    ((EditText)view).setText("");
+                if (hasFocus) {
+                    ((EditText) view).setText("");
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
                 }
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item1: {
                 String number = "505505505";
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:"+number));
+                intent.setData(Uri.parse("tel:" + number));
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 } else {

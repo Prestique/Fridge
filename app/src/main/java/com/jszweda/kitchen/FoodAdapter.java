@@ -26,7 +26,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     }
 
     @NonNull
-    @Override
+    @Override //jak ten vieholder stworzyć
     public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         RecyclerviewItemBinding recyclerviewItemBinding = DataBindingUtil.inflate(
@@ -41,6 +41,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         return new FoodViewHolder(recyclerviewItemBinding);
     }
 
+    //przypisujemy dane do widoków
     @Override
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
        final Food selectedFood = listOfFood.get(position);
@@ -54,7 +55,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.recyclerviewItemBinding.tvExpDate.setText(selectedFood.getDaysLeft() + days + " ważności");
         holder.itemView.setOnClickListener(view -> {
             if (listener != null){
-                listener.onItemClick(position);
+                listener.onItemClick(holder.getAdapterPosition());
             }
         });
 
@@ -76,7 +77,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         return listOfFood.get(position).getFoodName();
     }
 
-
+    //tu przypisujemy widoki (np textview) do zmiennych lokalnych widoków
     public class FoodViewHolder extends RecyclerView.ViewHolder {
 //        public TextView tvFoodName, tvWeight, tvExpDate, tvQuantity;
 

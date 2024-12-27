@@ -61,6 +61,8 @@
                 android:layout_marginEnd="4dp"
                 android:text='@{Integer.valueOf(food.weight) != null ? String.valueOf(food.weight) : "brak"}'
                 android:hint="waga"
+                android:gravity="end"
+                android:paddingEnd="5dp"
                 android:textColor="@color/black"
                 android:textSize="26sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvFoodName"
@@ -74,6 +76,8 @@
                 android:layout_marginEnd="0dp"
                 android:text='@{Integer.valueOf(food.quantity) != null ? String.valueOf(food.quantity) : "brak"}'
                 android:hint="sztuki"
+                android:gravity="end"
+                android:paddingEnd="5dp"
                 android:textColor="@color/black"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="@+id/tvWeight"
